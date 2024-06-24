@@ -11,7 +11,7 @@ const [error, setError] = useState(null);
 
 useEffect(() => {
 
-const apiKey = "bbc8f006b72647441651bc61b971531f";
+const apiKey = "8fb74bb7f12004815bbeef0711b4236b";
     const { latitude, longitude } = coordinates;
     const apiUrl = `https://api.openweathermap.org/data/3.0/onecall?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
 
