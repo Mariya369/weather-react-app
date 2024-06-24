@@ -12,8 +12,9 @@ const [error, setError] = useState(null);
 useEffect(() => {
 if (coordinates) {
 const apiKey = "bbc8f006b72647441651bc61b971531f";
-    const { latitude, longitude } = coordinates;
-    const apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
+    const { lat, lon } = coordinates;
+    const apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
+    console.log(`Forecast API URL: ${apiUrl}`);
 
     axios.get(apiUrl).then(response => {
         console.log(response.data);

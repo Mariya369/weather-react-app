@@ -13,7 +13,7 @@ export default function Weather({ defaultCity }) {
    const handleResponse = useCallback((response) => {
         setWeatherData ({
             ready: true,
-            coordinates: response.data.coord,
+            coordinates: { lat: response.data.coord.lat, lon: response.data.coord.lon },
             temperature: response.data.main.temp,
             humidity: response.data.main.humidity,
             date: new Date (response.data.dt * 1000),
@@ -33,6 +33,7 @@ export default function Weather({ defaultCity }) {
     const search = useCallback(() => {
         const apiKey = "bbc8f006b72647441651bc61b971531f";
         let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+        console.log(`API URL: ${apiUrl}`);
         axios.get(apiUrl).then(handleResponse).catch(handleError);
     }, [city, handleResponse, handleError]);
 
