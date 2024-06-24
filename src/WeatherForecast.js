@@ -10,25 +10,29 @@ const [forecastData, setForecastData] = useState(null);
 const [error, setError] = useState(null);
 
 useEffect(() => {
-
-const apiKey = "8fb74bb7f12004815bbeef0711b4236b";
+if (coordinates) {
+const apiKey = "bbc8f006b72647441651bc61b971531f";
     const { latitude, longitude } = coordinates;
-    const apiUrl = `https://api.openweathermap.org/data/3.0/onecall?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
+    const apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
 
     axios.get(apiUrl).then(response => {
         console.log(response.data);
         setForecastData(response.data);
-    })
+        })
     .catch(error => {
         setError(error.response ? error.response.data : "Error fetching data");
         console.error("Error fetching data", error);
-    });
+        });
+    }
 }, [coordinates]);
+
 if (error) {
     return <div className="WeatherForecast">Error: {error.message || error }</div>;
 }
+
 if (!forecastData || !forecastData.daily) {
-    return <div className="WeatherForecast">
+    return (
+    <div className="WeatherForecast">
           <Rings
 visible={true}
 height="80"
@@ -38,7 +42,8 @@ ariaLabel="rings-loading"
 wrapperStyle={{}}
 wrapperClass=""
 />
-</div>;
+</div>
+    );
 }
 
     return (
