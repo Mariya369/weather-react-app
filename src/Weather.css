@@ -6,6 +6,11 @@
     color: rgb(135, 135, 135);
 }
  
+.Weather-spin {
+    padding-left: 40%;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
 
 .Weather h1 {
     color: #878787;

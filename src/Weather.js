@@ -1,16 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Weatherinfo from "./Weatherinfo";
 import WeatherForecast from "./WeatherForecast";
+import { Rings } from 'react-loader-spinner';
 import axios from "axios";
-
 import "./Weather.css";
 
-
-export default function Weather(props) {
-    const [weatherData, setWeatherData] = useState({ ready:false });
-    const [city, setCity] = useState(props.defaultCity);
-    
-    function handleResponse(response) {
+export default function Weather({ defaultCity }) {
+    const [weatherData, setWeatherData] = useState({ ready: false });
+    const [city, setCity] = useState(defaultCity);
+    const [error, setError] = useState(null);
+   
+   const handleResponse = useCallback((response) => {
         setWeatherData ({
             ready: true,
             coordinates: response.data.coord,
@@ -22,13 +22,24 @@ export default function Weather(props) {
             wind: response.data.wind.speed,
             city: response.data.name
         });
-    }
+        setError(null);
+    }, []);
 
-    function search() {
-        const apiKey = "28913bc91722d453416f8f629fbd6b7d";
+    const handleError = useCallback((error) => {
+        setError("City not found. Please try again.");
+        setWeatherData({ ready: false });
+    }, []);
+
+    const search = useCallback(() => {
+        const apiKey = "8fb74bb7f12004815bbeef0711b4236b";
         let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
-        axios.get(apiUrl).then(handleResponse);
-    }
+        axios.get(apiUrl).then(handleResponse).catch(handleError);
+    }, [city, handleResponse, handleError]);
+
+    useEffect(() => {
+        search();
+    }, [search]);
+
     function handleSubmit(event) {
         event.preventDefault();
         search();
@@ -36,10 +47,9 @@ export default function Weather(props) {
 
     function handleCityChange(event) {
         setCity(event.target.value);
-
     }
-    if (weatherData.ready) {
 
+    if (weatherData.ready) {
     return (
     <div className="Weather">
         <form onSubmit={handleSubmit}>
@@ -58,12 +68,24 @@ export default function Weather(props) {
             </div>
             </div>
         </form>
+        {error && <div className="alert alert-danger">{error}</div>}
         <Weatherinfo data={weatherData} />
         <WeatherForecast coordinates={weatherData.coordinates} />
         </div>
     );
-    }   else {
-        search();
-    return "Loading..."
+    } else {
+    return (
+    <div className="Weather-spin">
+    <Rings
+visible={true}
+height="80"
+width="80"
+color="#1e1e1e"
+ariaLabel="rings-loading"
+wrapperStyle={{}}
+wrapperClass="" 
+/>
+</div>
+       );
     }
 }
