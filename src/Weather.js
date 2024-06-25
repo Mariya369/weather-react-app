@@ -8,7 +8,6 @@ import "./Weather.css";
 
 export default function Weather({ defaultCity }) {
     const [weatherData, setWeatherData] = useState({ ready: false });
-    const [city, setCity] = useState(defaultCity);
     const [error, setError] = useState(null);
    
    const handleResponse = useCallback((response) => {
@@ -49,10 +48,13 @@ export default function Weather({ defaultCity }) {
         search(defaultCity);
     }, [defaultCity, search]);
 
-    const debouncedSearch = useCallback(debounce((cityName) => {
-        setCity(cityName);
-        search(cityName);
-    }, 500), [search]);
+    const debouncedSearch = useCallback((cityName) => {
+        let timeout;
+        clearTimeout(timeout);
+        timeout = setTimeout(() => {
+            search(cityName);
+    }, 500);
+ },  [search]);
 
         return (
         <div className="Weather">
@@ -78,12 +80,4 @@ export default function Weather({ defaultCity }) {
             )}
             </div>
         );
-        } 
-    
-    function debounce (func, delay) {
-        let timeout;
-        return function (...args) {
-            clearTimeout(timeout);
-            timeout = setTimeout(() => func(...args), delay);
-        };
-    }
+        }
