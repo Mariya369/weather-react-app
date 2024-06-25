@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Rings } from 'react-loader-spinner';
 import axios from "axios";
-
-import "./WeatherForecast.css"
 import WeatherForecastDay from "./WeatherForecastDay";
+import "./WeatherForecast.css"
+
 
 export default function WeatherForecast({ coordinates }) {
 const [forecastData, setForecastData] = useState(null);
@@ -14,7 +14,6 @@ if (coordinates) {
 const apiKey = "bbc8f006b72647441651bc61b971531f";
     const { lat, lon } = coordinates;
     const apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
-    console.log(`Forecast API URL: ${apiUrl}`);
 
     axios.get(apiUrl).then(response => {
         console.log(response.data);
@@ -28,22 +27,22 @@ const apiKey = "bbc8f006b72647441651bc61b971531f";
 }, [coordinates]);
 
 if (error) {
-    return <div className="WeatherForecast">Error: {error}</div>;
+    return <div className="WeatherForecast">Error: {error.message || error}</div>;
 }
 
 if (!forecastData || !forecastData.daily) {
     return (
     <div className="WeatherForecast">
-          <Rings
-visible={true}
-height="80"
-width="80"
-color="#4fa94d"
-ariaLabel="rings-loading"
-wrapperStyle={{}}
-wrapperClass=""
-/>
-</div>
+        <Rings
+            visible={true}
+            height="80"
+            width="80"
+            color="#4fa94d"
+            ariaLabel="rings-loading"
+            wrapperStyle={{}}
+            wrapperClass=""
+        />
+    </div>
     );
 }
 

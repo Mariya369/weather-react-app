@@ -5,7 +5,7 @@ export default function WeatherForecastDay({ day }) {
     return (
         <div>
         <div className="WeatherForecast-day">
-                        {new Date(day.dt * 1000).toLocaleDateString("en-US", {weekday: `short` })}
+                        {new Date(day.dt * 1000).toLocaleDateString("en-US", { weekday: `short` })}
                     </div>
                     <WeatherIcon code={day.weather[0].icon} size={36} />
                     <div className="WeatherForecast-temperature">
