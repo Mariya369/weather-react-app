@@ -26,11 +26,19 @@ export default function Weather({ defaultCity }) {
     }, []);
 
     const handleError = useCallback((error) => {
+        if (error.response && error.response.status === 404) {
         setError("City not found. Please try again.");
+        } else {
+                setError("An unexpected error occurred. Please try again.");
+        }
         setWeatherData({ ready: false });
     }, []);
 
     const search = useCallback(() => {
+        if (!city) {
+            setError("Please enter a valid city name.");
+            return;
+        }
         const apiKey = "bbc8f006b72647441651bc61b971531f";
         let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
         console.log(`API URL: ${apiUrl}`);
@@ -41,13 +49,17 @@ export default function Weather({ defaultCity }) {
         search();
     }, [search]);
 
+    const debounceSearch = useCallback(debounce((cityName) => {
+        setCity(cityName);
+    }, 500), []);
+
     function handleSubmit(event) {
         event.preventDefault();
         search();
     }
 
     function handleCityChange(event) {
-        setCity(event.target.value);
+        debounceSearch(event.target.value);
     }
 
     if (weatherData.ready) {
@@ -89,4 +101,12 @@ wrapperClass=""
 </div>
        );
     }
+}
+
+function debounce(func, delay) {
+    let timeout;
+    return function (...args) {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func(...args).delay);
+    };
 }

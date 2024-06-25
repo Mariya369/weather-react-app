@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import WeatherIcon from "./WeatherIcon";
 import { Rings } from 'react-loader-spinner';
 import axios from "axios";
 
 import "./WeatherForecast.css"
+import WeatherForecastDay from "./WeatherForecastDay";
 
 export default function WeatherForecast({ coordinates }) {
 const [forecastData, setForecastData] = useState(null);
@@ -28,7 +28,7 @@ const apiKey = "bbc8f006b72647441651bc61b971531f";
 }, [coordinates]);
 
 if (error) {
-    return <div className="WeatherForecast">Error: {error.message || error }</div>;
+    return <div className="WeatherForecast">Error: {error}</div>;
 }
 
 if (!forecastData || !forecastData.daily) {
@@ -52,18 +52,7 @@ wrapperClass=""
             <div className="row">
                 {forecastData.daily.slice(0,5).map((day, index) => (
                 <div className="col" key={index}>
-                    <div className="WeatherForecast-day">
-                        {new Date(day.dt * 1000).toLocaleDateString("en-US", {weekday: `short` })}
-                    </div>
-                    <WeatherIcon code={day.weather[0].icon} size={36} />
-                    <div className="WeatherForecast-temperature">
-                        <span className="WeatherForecast-temperature-max">
-                            {Math.round(day.temp.max)}º
-                            </span> 
-                        <span className="WeatherForecast-temperature-min">
-                            {Math.round(day.temp.min)}º
-                        </span>
-                        </div>
+                    < WeatherForecastDay day={day} />
                 </div>
                 ))}
                 </div>
