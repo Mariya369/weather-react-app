@@ -54,31 +54,31 @@ export default function Weather({ defaultCity }) {
         search(cityName);
     }, 500), [search]);
 
-    if (weatherData.ready) {
         return (
         <div className="Weather">
            <WeatherForm onSearch={debouncedSearch} />
             {error && <div className="alert alert-danger">{error}</div>}
-            <Weatherinfo data={weatherData} />
-            <WeatherForecast coordinates={weatherData.coordinates} />
+            {weatherData.ready ? (
+                <>
+                <Weatherinfo data={weatherData} />
+                <WeatherForecast coordinates={weatherData.coordinates} />
+                </>
+            ) : (
+                <div className="Weather-spin">
+                    <Rings
+                        visible={true}
+                        height="80"
+                        width="80"
+                        color="#1e1e1e"
+                        ariaLabel="rings-loading"
+                        wrapperStyle={{}}
+                        wrapperClass="" 
+                    />
+                </div>
+            )}
             </div>
         );
-        } else {
-        return (
-        <div className="Weather-spin">
-        <Rings
-    visible={true}
-    height="80"
-    width="80"
-    color="#1e1e1e"
-    ariaLabel="rings-loading"
-    wrapperStyle={{}}
-    wrapperClass="" 
-    />
-    </div>
-           );
-        }
-    }
+        } 
     
     function debounce (func, delay) {
         let timeout;

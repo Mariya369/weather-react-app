@@ -14,7 +14,6 @@ export default function WeatherForm({ onSearch }) {
     };
 
     return (
-        <div className="Form">
         <form onSubmit={handleSubmit}>
             <div className="row">
                 <div className="col-9">
@@ -32,6 +31,5 @@ export default function WeatherForm({ onSearch }) {
                 </div>
             </div>
         </form>
-        </div>
     );
 }
