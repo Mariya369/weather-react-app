@@ -8,6 +8,7 @@ import "./WeatherForecast.css"
 export default function WeatherForecast({ coordinates }) {
 const [forecastData, setForecastData] = useState(null);
 const [error, setError] = useState(null);
+const [unit, setUnit] = useState("celsius");
 
 useEffect(() => {
 if (coordinates) {
@@ -25,6 +26,20 @@ const apiKey = "bbc8f006b72647441651bc61b971531f";
         });
     }
 }, [coordinates]);
+
+function showFahrenheit(event) {
+    event.preventDefault();
+    setUnit("fahrenheit");
+}
+
+function showCelsius(event) {
+    event.preventDefault();
+    setUnit("celsius");
+}
+
+function convertToFahrenheit(temp) {
+    return (temp * 9/5) + 32;
+}
 
 if (error) {
     return <div className="WeatherForecast">Error: {error.message || error}</div>;
@@ -48,10 +63,22 @@ if (!forecastData || !forecastData.daily) {
 
     return (
         <div className="WeatherForecast">
+        <div className="unit-toggle">
+            <span className="unit">
+                {unit ==="celsius" ? (
+                    <>ºC I <a href="/" onClick={showFahrenheit}>ºF</a></>
+                ) : (
+                    <><a href="/" onClick={showCelsius}>ºC</a> I ºF</>
+                )}
+            </span>
+        </div>
             <div className="row">
                 {forecastData.daily.slice(0,5).map((day, index) => (
                 <div className="col" key={index}>
-                    < WeatherForecastDay day={day} />
+                    < WeatherForecastDay 
+                    day={day}
+                    unit={unit}
+                    convertToFahrenheit={convertToFahrenheit} />
                 </div>
                 ))}
                 </div>

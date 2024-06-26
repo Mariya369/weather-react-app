@@ -1,7 +1,14 @@
 import React from "react";
 import WeatherIcon from "./WeatherIcon";
 
-export default function WeatherForecastDay({ day }) {
+export default function WeatherForecastDay({ day, unit, convertToFahrenheit }) {
+    function formatTemperature(temp) {
+        if (unit === "fahrenheit") {
+            return Math.round(convertToFahrenheit(temp));
+        }
+        return Math.round(temp);
+    }
+
     return (
         <div>
         <div className="WeatherForecast-day">
