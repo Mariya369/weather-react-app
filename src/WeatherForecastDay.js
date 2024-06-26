@@ -17,10 +17,10 @@ export default function WeatherForecastDay({ day, unit, convertToFahrenheit }) {
                     <WeatherIcon code={day.weather[0].icon} size={36} />
                     <div className="WeatherForecast-temperature">
                         <span className="WeatherForecast-temperature-max">
-                            {Math.round(day.temp.max)}º
+                            {formatTemperature(day.temp.max)}º
                             </span> 
                         <span className="WeatherForecast-temperature-min">
-                            {Math.round(day.temp.min)}º
+                            {formatTemperature(day.temp.min)}º
                         </span>
                         </div>
                         </div>

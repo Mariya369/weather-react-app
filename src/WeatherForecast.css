@@ -1,7 +1,27 @@
 .WeatherForecast {
-    text-align: center;
+    padding: 20px;
   }
+
+  .unit-toggle {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .unit-toggle .unit a {
+    text-decoration: none;
+    color: #007bff;
+  }
+ 
+  .unit-toggle .unit a :hover {
+    text-decoration: underline;
+  }
+
+  .WeatherForecast-day {
+    font-weight: bold;
+    margin-top: 10px;
+}
+
   .WeatherForecast-temperature-min {
-    opacity: 0.8;
+    opacity: 0.7;
     margin-left: 5px;
   }
